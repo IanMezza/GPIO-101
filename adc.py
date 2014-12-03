@@ -15,7 +15,7 @@ cadena_binaria = "0"
 decimal = "0"
 try:
 	while True:
-		a0 = GPIO.input(7) ^ 1
+		a0 = GPIO.input(7) 	^ 1
 		
 		a1 = GPIO.input(11) ^ 1
 		
