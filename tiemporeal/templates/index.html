@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Interfaz web</title>
+
+		<!-- Bootstrap -->
+		<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+	</head>
+	<body>
+
+		<script type="text/javascript">
+		jQuery(document).ready(function(){
+			console.log('hola mundo');
+			var progreso = setInterval(function(){
+				jQuery.get("/adc", function(adc){
+					console.log(adc);
+					jQuery("#pot").css('width',adc+'%');
+					jQuery("#pot").html(adc+'%');
+				});
+			}, 250);
+		});
+		</script>
+
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12">
+					<h1>Proyecto de lámpara web</h1>
+					{% for pin in pins %}
+					<p class="lead">La {{ pins[pin].name }}
+					{% if pins[pin].state == true %}
+						se encuentra actualmente encendida  <a  class="btn btn-primary" href="/{{pin}}/off">Apagar</a>
+					{% else %}
+						se encuentra actualmente apagada <a class="btn btn-success" href="/{{pin}}/on">Encender</a>
+					{% endif %}
+					</p>
+					{% endfor %}
+					{% if message %}
+					<h2>{{ message }}</h2>
+					{% endif %}
+
+					<h2 id='potValue'>El valor del potenciómetro es </h2>
+
+					<div class="progress">
+					  <div id='pot' class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+					  </div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</body>
+</html>
